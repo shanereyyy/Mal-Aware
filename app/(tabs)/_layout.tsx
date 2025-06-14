@@ -1,43 +1,79 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
-
-import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import * as NavigationBar from 'expo-navigation-bar';
+import { Tabs } from 'expo-router';
+import React, { useEffect } from 'react';
+import { TouchableOpacity, View } from 'react-native';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+
+  // Hide the navigation bar on Android devices
+  useEffect(() => {
+    NavigationBar.setVisibilityAsync('hidden');
+  }, []);
 
   return (
+    // Set the navigation bar color to match the app theme
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarShowLabel: true,
+        tabBarStyle: { height: 70 },
         headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
+      }}
+    >
+      
+      {/* Define the tab screens with their respective icons and titles */}
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="lessons"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Lessons',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="book.fill" color={color} />,
+        }}
+      />
+
+      {/* Custom scan button with a larger icon and a floating effect */}
+      <Tabs.Screen
+        name="scan"
+        options={{
+          title: 'Scan',
+          tabBarIcon: ({ color }) => (
+            <View style={{
+              backgroundColor: '#39A8FF',
+              width: 64,
+              height: 64,
+              borderRadius: 32,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderWidth: 6,
+              borderColor: '#F8FCFC',
+              elevation: 8,
+            }}>
+              <IconSymbol size={32} name="qrcode.viewfinder" color="#fff" />
+            </View>
+          ),
+          tabBarButton: ({ children, onPress, style }) => (
+            <TouchableOpacity onPress={onPress} style={[style, { top: -24 }]}>{children}</TouchableOpacity>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="history"
+        options={{
+          title: 'History',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="clock.arrow.circlepath" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.fill" color={color} />,
         }}
       />
     </Tabs>
