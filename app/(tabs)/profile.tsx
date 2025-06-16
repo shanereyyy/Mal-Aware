@@ -1,14 +1,14 @@
 
-import { View, Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 
 import { Collapsible } from '@/components/Collapsible';
 import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
+import LinearBackground from '@/components/ui/LinearBackground';
 
 export default function TabTwoScreen() {
   return (
-    <ParallaxScrollView>
+    <LinearBackground>
       <View style={styles.titleContainer}>
         <ThemedText type="title">Explore</ThemedText>
       </View>
@@ -74,13 +74,13 @@ export default function TabTwoScreen() {
         {Platform.select({
           ios: (
             <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
+              The <ThemedText type="defaultSemiBold">components/LinearBackground.tsx</ThemedText>{' '}
               component provides a parallax effect for the header image.
             </ThemedText>
           ),
         })}
       </Collapsible>
-    </ParallaxScrollView>
+    </LinearBackground>
   );
 }
 

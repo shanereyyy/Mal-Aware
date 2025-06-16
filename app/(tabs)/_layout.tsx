@@ -16,24 +16,29 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarShowLabel: true,
-        tabBarStyle: { height: 70 },
+        tabBarStyle: {
+          height: 70,
+          borderTopLeftRadius: 24,
+          borderTopRightRadius: 24,
+          backgroundColor: '#F8FCFC',
+        },
         headerShown: false,
       }}
     >
-      
+
       {/* Define the tab screens with their respective icons and titles */}
       <Tabs.Screen
         name="home"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="house.fill" color={focused ? '#39A8FF' : '#005EA4'} />, // selected: #39A8FF, default: #005EA4
         }}
       />
       <Tabs.Screen
         name="lessons"
         options={{
           title: 'Lessons',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="book.fill" color={color} />,
+          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="book.fill" color={focused ? '#39A8FF' : '#005EA4'} />,
         }}
       />
 
@@ -41,10 +46,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="scan"
         options={{
-          title: 'Scan',
-          tabBarIcon: ({ color }) => (
+          title: '',
+          tabBarIcon: ({ focused }) => (
             <View style={{
-              backgroundColor: '#39A8FF',
+              backgroundColor: focused ? '#39A8FF' : '#005EA4',
               width: 64,
               height: 64,
               borderRadius: 32,
@@ -66,14 +71,14 @@ export default function TabLayout() {
         name="history"
         options={{
           title: 'History',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="clock.arrow.circlepath" color={color} />,
+          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="clock.arrow.circlepath" color={focused ? '#39A8FF' : '#005EA4'} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.fill" color={color} />,
+          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="person.fill" color={focused ? '#39A8FF' : '#005EA4'} />,
         }}
       />
     </Tabs>

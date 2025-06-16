@@ -1,14 +1,14 @@
 
-import { View, Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 
 import { Collapsible } from '@/components/Collapsible';
 import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
+import LinearBackground from '@/components/ui/LinearBackground';
 
 export default function TabTwoScreen() {
   return (
-    <ParallaxScrollView>
+    <LinearBackground>
       <View style={styles.titleContainer}>
         <ThemedText type="title">Explore</ThemedText>
       </View>
@@ -80,7 +80,7 @@ export default function TabTwoScreen() {
           ),
         })}
       </Collapsible>
-    </ParallaxScrollView>
+    </LinearBackground>
   );
 }
 

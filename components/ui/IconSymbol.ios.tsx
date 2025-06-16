@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/Colors';
 import { SymbolView, SymbolViewProps, SymbolWeight } from 'expo-symbols';
 import { StyleProp, ViewStyle } from 'react-native';
 
@@ -10,14 +11,17 @@ export function IconSymbol({
 }: {
   name: SymbolViewProps['name'];
   size?: number;
-  color: string;
+  color?: string;
   style?: StyleProp<ViewStyle>;
   weight?: SymbolWeight;
+  selected?: boolean; // add selected prop
 }) {
+  // Use '#005EA4' if selected, otherwise use provided color
+  const iconColor = color || Colors.tabIconDefault;
   return (
     <SymbolView
       weight={weight}
-      tintColor={color}
+      tintColor={iconColor}
       resizeMode="scaleAspectFit"
       name={name}
       style={[
