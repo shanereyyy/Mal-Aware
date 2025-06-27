@@ -3,7 +3,13 @@ export const Colors = {
   background: '#fff',
   tint: '#0a7ea4',
   icon: '#005EA4',
-
   tabIconDefault: '#005EA4',
   tabIconSelected: '##39A8FF',
+
+
+  darkBlue: '#005EA4',
+  lightBlue: '#39A8FF',
+  white: '#fcfaff',
+  black: '#060606',
+  grey: '#7B8D93',
 };

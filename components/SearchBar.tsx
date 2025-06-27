@@ -2,7 +2,9 @@ import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
 export default function SearchBar() {
+
     return (
+
         <View style={styles.searchContainer}>
             <TextInput
                 style={styles.searchBar}
@@ -10,6 +12,7 @@ export default function SearchBar() {
                 placeholderTextColor="#888"
             />
         </View>
+
     );
 }
 

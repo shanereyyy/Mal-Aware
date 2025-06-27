@@ -6,10 +6,13 @@ import { ThemedText } from '@/components/ThemedText';
 export default function HomeScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }}>
+
       <LinearBackground>
+
         <View style={styles.titleContainer}>
           <ThemedText type="title">Welcome! to Mal-Aware</ThemedText>
         </View>
+
         <View style={styles.stepContainer}>
           <ThemedText type="subtitle">Step 1: Try it</ThemedText>
           <ThemedText>
@@ -25,12 +28,14 @@ export default function HomeScreen() {
             to open developer tools.
           </ThemedText>
         </View>
+
         <View style={styles.stepContainer}>
           <ThemedText type="subtitle">Step 2: Explore</ThemedText>
           <ThemedText>
             {`Tap the Explore tab to learn more about what's included in this starter app.`}
           </ThemedText>
         </View>
+
         <View style={styles.stepContainer}>
           <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
           <ThemedText>
@@ -41,17 +46,21 @@ export default function HomeScreen() {
             <ThemedText type="defaultSemiBold">app-example</ThemedText>.
           </ThemedText>
         </View>
+
       </LinearBackground>
+
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+
   searchContainer: {
     paddingHorizontal: 16,
     paddingTop: 24,
     paddingBottom: 8,
   },
+
   searchBar: {
     backgroundColor: '#fff',
     borderRadius: 24,
@@ -64,15 +73,18 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 2,
   },
+
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },
+
   stepContainer: {
     gap: 8,
     marginBottom: 8,
   },
+
   reactLogo: {
     height: 178,
     width: 290,
