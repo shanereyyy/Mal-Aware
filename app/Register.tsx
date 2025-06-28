@@ -16,28 +16,32 @@ import {
 } from 'react-native';
 
 import TextBox from '@/components/ui/Input';
-import { app } from '@/firebaseConfig';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/firebaseConfig';
+import { useRouter } from 'expo-router';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function Register() {
 
   const [loading, setLoading] = useState(false);
-  const [agree, setAgree] = useState(false);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const router = useRouter();
+
   async function register() {
 
     setLoading(true);
+    
     try {
 
-      const auth = getAuth(app);
       await createUserWithEmailAndPassword(auth, email, password);
       const response = await signInWithEmailAndPassword(auth, email, password);
       setLoading(false);
       Alert.alert('Success', response.user.uid);
 
+      router.replace('/(app)/(tabs)/home');
+      
       return;
 
     } catch (error) {

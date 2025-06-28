@@ -16,8 +16,11 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="LogIn" />
+        <Stack.Screen name="Register" />
+        <Stack.Screen name="(app)" />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />

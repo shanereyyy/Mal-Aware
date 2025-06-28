@@ -21,8 +21,7 @@ export default function TabLayout() {
           borderTopLeftRadius: 24,
           borderTopRightRadius: 24,
           backgroundColor: '#F8FCFC',
-        },
-        headerShown: false,
+        }
       }}
     >
 
@@ -31,6 +30,7 @@ export default function TabLayout() {
         name="home"
         options={{
           title: 'Home',
+          headerShown: false,
           tabBarIcon: ({ focused }) => <IconSymbol size={28} name="house.fill" color={focused ? '#39A8FF' : '#005EA4'} />, // selected: #39A8FF, default: #005EA4
         }}
       />
@@ -38,6 +38,7 @@ export default function TabLayout() {
         name="lessons"
         options={{
           title: 'Lessons',
+          headerShown: false,
           tabBarIcon: ({ focused }) => <IconSymbol size={28} name="book.fill" color={focused ? '#39A8FF' : '#005EA4'} />,
         }}
       />
@@ -47,6 +48,7 @@ export default function TabLayout() {
         name="scan"
         options={{
           title: '',
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View style={{
               backgroundColor: focused ? '#39A8FF' : '#005EA4',
@@ -63,7 +65,9 @@ export default function TabLayout() {
             </View>
           ),
           tabBarButton: ({ children, onPress, style }) => (
-            <TouchableOpacity onPress={onPress} style={[style, { top: -24 }]}>{children}</TouchableOpacity>
+            <TouchableOpacity 
+            onPress={onPress} 
+            style={[style, { top: -24 }]}>{children}</TouchableOpacity>
           ),
         }}
       />
@@ -71,6 +75,7 @@ export default function TabLayout() {
         name="history"
         options={{
           title: 'History',
+          headerShown: false,
           tabBarIcon: ({ focused }) => <IconSymbol size={28} name="clock.arrow.circlepath" color={focused ? '#39A8FF' : '#005EA4'} />,
         }}
       />
@@ -78,6 +83,7 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: 'Profile',
+          headerShown: false,
           tabBarIcon: ({ focused }) => <IconSymbol size={28} name="person.fill" color={focused ? '#39A8FF' : '#005EA4'} />,
         }}
       />

@@ -9,6 +9,7 @@ export default function Home() {
   const router = useRouter();
 
   return (
+
     <LinearGradient
       colors={['#FFFFFF', '#8ED6FF']}
       start={{ x: 0.5, y: 0 }}
@@ -22,11 +23,11 @@ export default function Home() {
 
         <View style={styles.buttonContainer}>
 
-          <TouchableOpacity style={styles.signupButton} activeOpacity={0.8} onPress={() => router.push('/Register')}>
+          <TouchableOpacity style={styles.signupButton} activeOpacity={0.8} onPress={() => router.navigate('/Register')}>
             <Text style={styles.signupText}>Register</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.signinButton} activeOpacity={0.8} onPress={() => router.push('/LogIn')}>
+          <TouchableOpacity style={styles.signinButton} activeOpacity={0.8} onPress={() => router.navigate('/LogIn')}>
             <Text style={styles.signinText}>Log in</Text>
           </TouchableOpacity>
 
@@ -35,6 +36,7 @@ export default function Home() {
       </View>
 
     </LinearGradient>
+    
   );
 }
 

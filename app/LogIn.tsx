@@ -16,31 +16,41 @@ import {
 } from 'react-native';
 
 import TextBox from '@/components/ui/Input';
-import { app } from '@/firebaseConfig';
+import { auth } from '@/firebaseConfig';
 import { useRouter } from 'expo-router';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function LogIn() {
+
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
 
   async function login() {
+
     setLoading(true);
+
     try {
-      const auth = getAuth(app);
+
       const response = await signInWithEmailAndPassword(auth, email, password);
       setLoading(false);
       Alert.alert('Success', `Logged in as ${response.user.email}`);
+
+      router.replace('/(app)/(tabs)/home');
+
     } catch (error) {
+
       setLoading(false);
       Alert.alert('Oops!', 'Invalid email or password!');
+
     }
   }
 
   return (
+
     <LinearGradient
+
       colors={['#FFFFFF', '#8ED6FF']}
       start={{ x: 0.5, y: 0 }}
       end={{ x: 0.5, y: 1 }}
@@ -53,9 +63,11 @@ export default function LogIn() {
       >
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }} keyboardShouldPersistTaps="handled">
           <View style={styles.container}>
+
             <View style={{ alignItems: 'center', marginBottom: 10 }}>
               <Image source={require('../assets/images/malaware-logo.png')} style={{ width: 120, height: 120, marginBottom: 10 }} />
             </View>
+
             <TextBox name="Email" onChangeText={setEmail} />
             <TextBox name="Password" onChangeText={setPassword} secureTextEntry showEye />
             <TouchableOpacity style={styles.button} onPress={login} disabled={loading}>
@@ -74,14 +86,17 @@ export default function LogIn() {
 }
 
 const styles = StyleSheet.create({
+
   gradient: {
     flex: 1,
   },
+
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   button: {
     width: '80%',
     height: 48,
@@ -96,8 +111,10 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 3,
   },
+
   buttonText: {
     color: '#fff',
     fontSize: 18,
   },
+  
 });
