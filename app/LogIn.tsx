@@ -20,6 +20,7 @@ import { auth } from '@/firebaseConfig';
 import { useRouter } from 'expo-router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
+
 export default function LogIn() {
 
   const [loading, setLoading] = useState(false);
@@ -61,7 +62,16 @@ export default function LogIn() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={60}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }} keyboardShouldPersistTaps="handled">
+        <ScrollView 
+        contentContainerStyle={{ 
+          flexGrow: 1, 
+          justifyContent: 'center',
+          paddingVertical: 20
+           }} 
+           keyboardShouldPersistTaps="handled"
+           showsVerticalScrollIndicator={false}
+           >
+
           <View style={styles.container}>
 
             <View style={{ alignItems: 'center', marginBottom: 10 }}>

@@ -1,19 +1,42 @@
-
-import { Platform, StyleSheet, View } from 'react-native';
+import { auth } from '@/firebaseConfig';
+import { useAuth } from '@/hooks/useAuth';
+import { signOut } from 'firebase/auth';
+import { Alert, Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { Collapsible } from '@/components/Collapsible';
 import { ExternalLink } from '@/components/ExternalLink';
 import { ThemedText } from '@/components/ThemedText';
 import LinearBackground from '@/components/ui/LinearBackground';
 
-export default function TabTwoScreen() {
+export default function ProfileScreen() {
+
+  const { user } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      // The root layout will automatically redirect to login
+    } catch (error) {
+      Alert.alert('Error', 'Failed to log out');
+    }
+  };
 
   return (
     <LinearBackground>
-
       <View style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
+        <ThemedText type="title">Profile</ThemedText>
       </View>
+
+      {user && (
+        <View style={styles.userInfo}>
+          <ThemedText type="subtitle">Welcome, {user.email}</ThemedText>
+          <ThemedText>User ID: {user.uid}</ThemedText>
+        </View>
+      )}
+
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <ThemedText style={styles.logoutText}>Logout</ThemedText>
+      </TouchableOpacity>
 
       <ThemedText>This app includes example code to help you get started.</ThemedText>
 
@@ -100,5 +123,23 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     gap: 8,
+  },
+  userInfo: {
+    marginBottom: 20,
+    padding: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 12,
+  },
+  logoutButton: {
+    backgroundColor: '#FF6B6B',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginBottom: 20,
+    alignSelf: 'flex-start',
+  },
+  logoutText: {
+    color: 'white',
+    fontWeight: '600',
   },
 });

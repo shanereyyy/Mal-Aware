@@ -1,16 +1,22 @@
 import LinearBackground from '@/components/ui/LinearBackground';
+import { useAuth } from '@/hooks/useAuth';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 
 export default function HomeScreen() {
+
+  const { user } = useAuth();
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }}>
 
       <LinearBackground>
 
         <View style={styles.titleContainer}>
-          <ThemedText type="title">Welcome! to Mal-Aware</ThemedText>
+          {user && (
+            <ThemedText style={{paddingBottom: 12}} type="title">Hi! {user.email}</ThemedText>
+          )}
         </View>
 
         <View style={styles.stepContainer}>
@@ -75,9 +81,7 @@ const styles = StyleSheet.create({
   },
 
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+
   },
 
   stepContainer: {

@@ -2,8 +2,8 @@ import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { ActivityIndicator, View } from 'react-native';
 import 'react-native-reanimated';
-
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -11,7 +11,11 @@ export default function RootLayout() {
   });
 
   if (!loaded) {
-    return null;
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#005EA4" />
+      </View>
+    );
   }
 
   return (
