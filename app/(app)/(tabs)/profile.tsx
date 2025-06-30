@@ -1,19 +1,19 @@
 import { signOutUser } from '@/components/auth';
 import { useAuth } from '@/hooks/useAuth';
-import { Alert, Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
+import * as NavigationBar from 'expo-navigation-bar';
+import { useEffect } from 'react';
+import { Alert, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
 import { ThemedText } from '@/components/ThemedText';
-import LinearBackground from '@/components/ui/LinearBackground';
-
 import { useUserProfile } from '@/components/fetch/userData';
-
+import { IconSymbol } from '@/components/ui/IconSymbol';
+import { Colors } from '@/constants/Colors';
 
 export default function ProfileScreen() {
-
   const { user } = useAuth();
   const { firstName, lastName } = useUserProfile();
+
+  const fullName = [firstName, lastName].filter(Boolean).join(' ');
 
   const handleLogout = async () => {
     try {
@@ -27,125 +27,111 @@ export default function ProfileScreen() {
     }
   };
 
+  useEffect(() => {
+    NavigationBar.setVisibilityAsync('hidden');
+  }, []);
+
   return (
-    <LinearBackground>
-      <View style={styles.titleContainer}>
-        <ThemedText type="title">Profile</ThemedText>
-      </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
+      <ScrollView
+        contentContainerStyle={[styles.content, styles.contentCentered]}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.container}>
+          <View style={styles.profileContainer}>
+              <View style={styles.iconBackground}>
+                <IconSymbol name="person.fill" size={80} color="white" />
+              </View>
+          </View>
 
-      {user && (
-        <View style={styles.userInfo}>
-          <ThemedText type="subtitle">Welcome, {firstName}</ThemedText>
-          <ThemedText>User ID: {user.uid}</ThemedText>
+          <View style={styles.detailsContainer}>
+            <View style={styles.detailItem}>
+              <ThemedText style={styles.label}>FULL NAME</ThemedText>
+              <ThemedText style={styles.value}>{fullName || 'Loading...'}</ThemedText>
+            </View>
+            <View style={styles.detailItem}>
+              <ThemedText style={styles.label}>EMAIL</ThemedText>
+              <ThemedText style={styles.value}>{user?.email}</ThemedText>
+            </View>
+          </View>
+
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+            <ThemedText style={styles.logoutText}>Log out</ThemedText>
+          </TouchableOpacity>
         </View>
-      )}
-
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <ThemedText style={styles.logoutText}>Logout</ThemedText>
-      </TouchableOpacity>
-
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/LinearBackground.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-
-    </LinearBackground>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
-  userInfo: {
+  profileContainer: {
+    marginBottom: 30,
+    alignItems: 'center',
+  },
+  iconBackground: {
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    backgroundColor: Colors.darkBlue,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  detailsContainer: {
+    width: '100%',
+    marginBottom: 40,
+  },
+  detailItem: {
     marginBottom: 20,
-    padding: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 12,
+    alignItems: 'flex-start',
+    width: '100%',
+  },
+  label: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: Colors.black,
+    opacity: 0.8,
+  },
+  value: {
+    fontSize: 18,
+    color: Colors.black,
+    marginTop: 4,
   },
   logoutButton: {
-    backgroundColor: '#FF6B6B',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 8,
-    marginBottom: 20,
-    alignSelf: 'flex-start',
+    width: '80%',
+    height: 48,
+    backgroundColor: Colors.darkBlue,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 18,
+    shadowColor: Colors.black,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 3,
   },
   logoutText: {
     color: 'white',
-    fontWeight: '600',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  content: {
+    padding: 24,
+    gap: 16,
+    marginHorizontal: 16,
+    marginTop: 64,
+    borderRadius: 16,
+  },
+  contentCentered: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    marginTop: 0,
   },
 });
