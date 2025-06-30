@@ -65,9 +65,9 @@ export default function TabLayout() {
             </View>
           ),
           tabBarButton: ({ children, onPress, style }) => (
-            <TouchableOpacity 
-            onPress={onPress} 
-            style={[style, { top: -24 }]}>{children}</TouchableOpacity>
+            <TouchableOpacity
+              onPress={onPress}
+              style={[style, { top: -24 }]}>{children}</TouchableOpacity>
           ),
         }}
       />

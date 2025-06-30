@@ -1,6 +1,5 @@
-import { auth } from '@/firebaseConfig';
+import { signOutUser } from '@/components/auth';
 import { useAuth } from '@/hooks/useAuth';
-import { signOut } from 'firebase/auth';
 import { Alert, Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { Collapsible } from '@/components/Collapsible';
@@ -8,13 +7,20 @@ import { ExternalLink } from '@/components/ExternalLink';
 import { ThemedText } from '@/components/ThemedText';
 import LinearBackground from '@/components/ui/LinearBackground';
 
+import { useUserProfile } from '@/components/fetch/userData';
+
+
 export default function ProfileScreen() {
 
   const { user } = useAuth();
+  const { firstName, lastName } = useUserProfile();
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
+      const result = await signOutUser();
+      if (!result.success) {
+        Alert.alert('Error', result.error || 'Failed to log out');
+      }
       // The root layout will automatically redirect to login
     } catch (error) {
       Alert.alert('Error', 'Failed to log out');
@@ -29,7 +35,7 @@ export default function ProfileScreen() {
 
       {user && (
         <View style={styles.userInfo}>
-          <ThemedText type="subtitle">Welcome, {user.email}</ThemedText>
+          <ThemedText type="subtitle">Welcome, {firstName}</ThemedText>
           <ThemedText>User ID: {user.uid}</ThemedText>
         </View>
       )}

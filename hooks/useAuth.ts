@@ -1,6 +1,6 @@
-import { User, onAuthStateChanged } from 'firebase/auth';
+import { setupAuthStateListener } from '@/components/auth';
+import { User } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { auth } from '../firebaseConfig';
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
@@ -9,22 +9,16 @@ export function useAuth() {
   useEffect(() => {
     console.log('useAuth hook - setting up auth listener');
     
-    try {
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        console.log('useAuth hook - auth state changed:', user?.email, 'isLoading:', false);
-        setUser(user);
-        setIsLoading(false);
-      }, (error) => {
+    const unsubscribe = setupAuthStateListener(
+      (user) => setUser(user),
+      (loading) => setIsLoading(loading),
+      (error) => {
         console.error('useAuth hook - auth error:', error);
         setIsLoading(false);
-      });
+      }
+    );
 
-      return unsubscribe;
-    } catch (error) {
-      console.error('useAuth hook - setup error:', error);
-      setIsLoading(false);
-      return () => {};
-    }
+    return unsubscribe;
   }, []);
 
   console.log('useAuth hook - returning state:', { user: user?.email, isLoading });

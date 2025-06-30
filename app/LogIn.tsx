@@ -3,23 +3,21 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {
-  ActivityIndicator,
-  Alert,
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
+    ActivityIndicator,
+    Alert,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
 
+import { signIn } from '@/components/auth';
 import TextBox from '@/components/ui/Input';
-import { auth } from '@/firebaseConfig';
 import { useRouter } from 'expo-router';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-
 
 export default function LogIn() {
 
@@ -29,22 +27,22 @@ export default function LogIn() {
   const router = useRouter();
 
   async function login() {
-
     setLoading(true);
 
     try {
-
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      setLoading(false);
-      Alert.alert('Success', `Logged in as ${response.user.email}`);
-
-      router.replace('/(app)/(tabs)/home');
-
+      const result = await signIn(email, password);
+      
+      if (result.success && result.user) {
+        setLoading(false);
+        Alert.alert('Success', `Logged in as ${result.user.email}`);
+        router.replace('/(app)/(tabs)/home');
+      } else {
+        setLoading(false);
+        Alert.alert('Oops!', result.error || 'Invalid email or password!');
+      }
     } catch (error) {
-
       setLoading(false);
-      Alert.alert('Oops!', 'Invalid email or password!');
-
+      Alert.alert('Oops!', 'Something went wrong!');
     }
   }
 
@@ -62,6 +60,14 @@ export default function LogIn() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={60}
       >
+        {/* Back Button */}
+        <TouchableOpacity 
+          style={styles.backButton} 
+          onPress={() => router.push('/')}
+        >
+          <Text style={styles.backButtonText}>Back</Text>
+        </TouchableOpacity>
+
         <ScrollView 
         contentContainerStyle={{ 
           flexGrow: 1, 
@@ -73,7 +79,7 @@ export default function LogIn() {
            >
 
           <View style={styles.container}>
-
+            
             <View style={{ alignItems: 'center', marginBottom: 10 }}>
               <Image source={require('../assets/images/malaware-logo.png')} style={{ width: 120, height: 120, marginBottom: 10 }} />
             </View>
@@ -105,6 +111,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    zIndex: 1000,
+    padding: 10,
+  },
+
+  backButtonText: {
+    fontSize: 16,
+    color: Colors.darkBlue,
+    fontWeight: '600',
   },
 
   button: {

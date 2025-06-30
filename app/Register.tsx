@@ -15,10 +15,9 @@ import {
   View
 } from 'react-native';
 
+import { signUp } from '@/components/auth';
 import TextBox from '@/components/ui/Input';
-import { auth } from '@/firebaseConfig';
 import { useRouter } from 'expo-router';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function Register() {
 
@@ -26,29 +25,26 @@ export default function Register() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
   const router = useRouter();
 
   async function register() {
-
     setLoading(true);
-    
     try {
-
-      await createUserWithEmailAndPassword(auth, email, password);
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      setLoading(false);
-      Alert.alert('Success', response.user.uid);
-
-      router.replace('/(app)/(tabs)/home');
-      
-      return;
-
+      const result = await signUp(email, password, firstName, lastName);
+      if (result.success && result.user) {
+        setLoading(false);
+        Alert.alert('Success', `Account created successfully!`);
+        router.replace('/(app)/(tabs)/home');
+      } else {
+        setLoading(false);
+        Alert.alert('Oops!', result.error || 'Something went wrong!');
+      }
     } catch (error) {
-
       setLoading(false);
       Alert.alert('Oops!', 'Something went wrong!');
-
     }
   }
 
@@ -64,6 +60,14 @@ export default function Register() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={60}
       >
+        {/* Back Button */}
+        <TouchableOpacity 
+          style={styles.backButton} 
+          onPress={() => router.push('/')}
+        >
+          <Text style={styles.backButtonText}>Back</Text>
+        </TouchableOpacity>
+
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }} keyboardShouldPersistTaps="handled">
           <View style={styles.container}>
 
@@ -71,8 +75,8 @@ export default function Register() {
               <Image source={require('../assets/images/malaware-logo.png')} style={{ width: 120, height: 120, marginBottom: 10 }} />
             </View>
 
-            <TextBox name="First name" />
-            <TextBox name="Last name" />
+            <TextBox name="First name" onChangeText={setFirstName} />
+            <TextBox name="Last name" onChangeText={setLastName} />
             <TextBox name="Email" onChangeText={setEmail} />
             <TextBox name="Password" onChangeText={setPassword} secureTextEntry showEye />
             <TextBox name="Confirm password" secureTextEntry showEye />
@@ -161,5 +165,17 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 18,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    zIndex: 1000,
+    padding: 10,
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: Colors.darkBlue,
+    fontWeight: '600',
   },
 });
