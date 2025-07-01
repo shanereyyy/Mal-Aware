@@ -42,11 +42,11 @@ export default function Home() {
         <Text style={styles.title}>MAL-AWARE</Text>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.signupButton} activeOpacity={0.8} onPress={() => router.navigate('/Register')}>
+          <TouchableOpacity style={styles.signupButton} activeOpacity={0.8} onPress={() => router.push('/Register')}>
             <Text style={styles.signupText}>Register</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.signinButton} activeOpacity={0.8} onPress={() => router.navigate('/LogIn')}>
+          <TouchableOpacity style={styles.signinButton} activeOpacity={0.8} onPress={() => router.push('/LogIn')}>
             <Text style={styles.signinText}>Log in</Text>
           </TouchableOpacity>
         </View>
