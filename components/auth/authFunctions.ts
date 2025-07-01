@@ -4,6 +4,8 @@ import {
     onAuthStateChanged,
     signInWithEmailAndPassword,
     signOut,
+    updateEmail,
+    updatePassword,
     User
 } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
@@ -119,4 +121,37 @@ export const getCurrentUser = (): User | null => {
 // Check if user is authenticated
 export const isAuthenticated = (): boolean => {
   return auth.currentUser !== null;
+};
+
+// Update user profile fields in Firestore
+export const updateUserProfile = async (uid: string, firstName: string, lastName: string) => {
+  try {
+    await setDoc(doc(db, 'user', uid), { firstName, lastName }, { merge: true });
+    return { success: true };
+  } catch (error) {
+    console.error('Update profile error:', error);
+    return { success: false, error: 'Failed to update profile' };
+  }
+};
+
+// Update user email
+export const updateUserEmail = async (user: User, newEmail: string) => {
+  try {
+    await updateEmail(user, newEmail);
+    return { success: true };
+  } catch (error) {
+    console.error('Update email error:', error);
+    return { success: false, error: 'Failed to update email' };
+  }
+};
+
+// Update user password
+export const updateUserPassword = async (user: User, newPassword: string) => {
+  try {
+    await updatePassword(user, newPassword);
+    return { success: true };
+  } catch (error) {
+    console.error('Update password error:', error);
+    return { success: false, error: 'Failed to update password' };
+  }
 }; 

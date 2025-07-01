@@ -8,9 +8,10 @@ interface Props {
     onChangeText?: (text: string) => void;
     secureTextEntry?: boolean;
     showEye?: boolean;
+    value?: string;
 }
 
-export default function TextBox({ name, onChangeText, secureTextEntry = false, showEye = false }: Props): React.ReactElement {
+export default function TextBox({ name, onChangeText, secureTextEntry = false, showEye = false, value }: Props): React.ReactElement {
     const [visible, setVisible] = useState(false);
     const isPassword = secureTextEntry;
     return(
@@ -21,6 +22,7 @@ export default function TextBox({ name, onChangeText, secureTextEntry = false, s
                 placeholderTextColor={Colors.grey}
                 onChangeText={onChangeText}
                 secureTextEntry={isPassword && !visible}
+                value={value}
             />
             {showEye && isPassword && (
                 <TouchableOpacity style={styles.eyeIcon} onPress={() => setVisible(v => !v)}>
