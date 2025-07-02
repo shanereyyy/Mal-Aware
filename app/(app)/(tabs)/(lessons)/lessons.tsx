@@ -1,11 +1,10 @@
 import SearchBar from '@/components/SearchBar';
 import { ThemedText } from '@/components/ThemedText';
 import { useLessons } from '@/components/fetch/lessons';
-import LinearBackground from '@/components/ui/LinearBackground';
 import { Colors } from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export default function LessonsScreen() {
   const { lessons, loading } = useLessons();
@@ -18,7 +17,7 @@ export default function LessonsScreen() {
     ), [lessons, search]);
 
   return (
-    <LinearBackground>
+    <View style={styles.container}>
       <SearchBar value={search} onChangeText={setSearch} />
       {loading ? (
         <ActivityIndicator size="large" color={Colors.icon} style={{ marginTop: 40 }} />
@@ -31,43 +30,44 @@ export default function LessonsScreen() {
           ListEmptyComponent={<ThemedText style={{ textAlign: 'center', marginTop: 40 }}>No lessons found.</ThemedText>}
         />
       )}
-    </LinearBackground>
+    </View>
   );
 }
 
 function LessonCard({ lesson }: { lesson: any }) {
-
   return (
     <TouchableOpacity style={styles.card} activeOpacity={0.85}>
       <View style={styles.iconBox}>
         <Ionicons size={36} color={Colors.lightBlue} />
       </View>
       <View style={{ flex: 1 }}>
-        <Text style={styles.cardTitle}>{lesson.title}</Text>
+        <ThemedText type="defaultSemiBold">{lesson.title}</ThemedText>
       </View>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    padding: 24,
+    gap: 16,
+    borderRadius: 16,
+  },
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.white,
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
+    borderRadius: 12,
+    padding: 16,
+    borderBottomColor: Colors.grey,
+    borderBottomWidth: 1,
   },
   iconBox: {
     width: 48,
     height: 48,
     borderRadius: 12,
-    backgroundColor: '#E6F3FF',
+    backgroundColor: Colors.darkBlue,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 16,

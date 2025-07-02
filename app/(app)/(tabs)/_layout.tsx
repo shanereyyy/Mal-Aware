@@ -1,7 +1,8 @@
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { Colors } from '@/constants/Colors';
 import * as NavigationBar from 'expo-navigation-bar';
 import { Tabs } from 'expo-router';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
 export default function TabLayout() {
@@ -20,7 +21,7 @@ export default function TabLayout() {
           height: 70,
           borderTopLeftRadius: 24,
           borderTopRightRadius: 24,
-          backgroundColor: '#F8FCFC',
+          backgroundColor: Colors.darkBlue,
         }
       }}
     >
@@ -31,15 +32,15 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           headerShown: false,
-          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="house.fill" color={focused ? '#39A8FF' : '#005EA4'} />, // selected: #39A8FF, default: #005EA4
+          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="house.fill" color={focused ? '#39A8FF' : Colors.white} />, // selected: #39A8FF, default: #005EA4
         }}
       />
       <Tabs.Screen
-        name="lessons"
+        name="(lessons)/lessons"
         options={{
           title: 'Lessons',
           headerShown: false,
-          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="book.fill" color={focused ? '#39A8FF' : '#005EA4'} />,
+          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="book.fill" color={focused ? '#39A8FF' : Colors.white} />,
         }}
       />
 
@@ -51,17 +52,17 @@ export default function TabLayout() {
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View style={{
-              backgroundColor: focused ? '#39A8FF' : '#005EA4',
+              backgroundColor: focused ? '#39A8FF' : Colors.white,
               width: 64,
               height: 64,
               borderRadius: 32,
               alignItems: 'center',
               justifyContent: 'center',
               borderWidth: 6,
-              borderColor: '#F8FCFC',
+              borderColor: Colors.darkBlue,
               elevation: 8,
             }}>
-              <IconSymbol size={32} name="qrcode.viewfinder" color="#fff" />
+              <IconSymbol size={32} name="qrcode.viewfinder" color={Colors.darkBlue} />
             </View>
           ),
           tabBarButton: ({ children, onPress, style }) => (
@@ -76,7 +77,7 @@ export default function TabLayout() {
         options={{
           title: 'History',
           headerShown: false,
-          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="clock.arrow.circlepath" color={focused ? '#39A8FF' : '#005EA4'} />,
+          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="clock.arrow.circlepath" color={focused ? '#39A8FF' : Colors.white} />,
         }}
       />
       <Tabs.Screen
@@ -84,7 +85,7 @@ export default function TabLayout() {
         options={{
           title: 'Profile',
           headerShown: false,
-          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="person.fill" color={focused ? '#39A8FF' : '#005EA4'} />,
+          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="person.fill" color={focused ? '#39A8FF' : Colors.white} />,
         }}
       />
     </Tabs>

@@ -7,7 +7,7 @@ export const Colors = {
   tabIconSelected: '##39A8FF',
 
 
-  darkBlue: '#005EA4',
+  darkBlue: '#004275',
   lightBlue: '#39A8FF',
   white: '#fcfaff',
   black: '#060606',

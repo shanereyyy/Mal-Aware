@@ -9,7 +9,6 @@ import { updateUserEmail, updateUserPassword, updateUserProfile } from '@/compon
 import { useUserProfile } from '@/components/fetch/userData';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import TextBox from '@/components/ui/Input';
-import LinearBackground from '@/components/ui/LinearBackground';
 import { Colors } from '@/constants/Colors';
 import Modal from 'react-native-modal';
 
@@ -106,102 +105,116 @@ export default function ProfileScreen() {
   };
 
   return (
-    <LinearBackground centered>
-      <View style={styles.container}>
-        <View style={styles.profileContainer}>
-            <View style={styles.iconBackground}>
-              <IconSymbol name="person.fill" size={80} color="white" />
-            </View>
+    <View style={styles.container}>
+      {/* Profile Card */}
+      <View style={styles.profileCard}>
+        <View style={styles.iconBackground}>
+          <IconSymbol name="person.fill" size={90} color="white" />
         </View>
-
         <View style={styles.detailsContainer}>
           <View style={styles.detailItem}>
             <ThemedText style={styles.label}>FULL NAME</ThemedText>
             <ThemedText style={styles.value}>{fullName || 'Loading...'}</ThemedText>
           </View>
+          <View style={styles.divider} />
           <View style={styles.detailItem}>
             <ThemedText style={styles.label}>EMAIL</ThemedText>
             <ThemedText style={styles.value}>{user?.email}</ThemedText>
           </View>
         </View>
-
+      </View>
+      {/* Action Buttons */}
+      <View style={styles.buttonGroup}>
         <TouchableOpacity style={styles.Button} onPress={handleEditProfile}>
           <ThemedText style={styles.logoutText}>Edit Profile</ThemedText>
         </TouchableOpacity>
-
         <TouchableOpacity style={styles.logOutButton} onPress={handleLogout}>
           <ThemedText style={styles.logoutText}>Log out</ThemedText>
         </TouchableOpacity>
-
-        {/* Edit Profile Modal */}
-        {/* Edit Profile Modal */}
-        {/* Edit Profile Modal */}
-        <Modal isVisible={modalVisible} onBackdropPress={() => setModalVisible(false)}>
-
-          <View style={{ backgroundColor: Colors.white, borderRadius: 16, padding: 24, alignItems: 'center' }}>
-            
-            <ThemedText style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 16 }}>Edit Profile</ThemedText>
-            {error ? <ThemedText style={{ color: Colors.red, marginBottom: 8 }}>{error}</ThemedText> : null}
-            {success ? <ThemedText style={{ color: Colors.green, marginBottom: 8 }}>{success}</ThemedText> : null}
-            <TextBox name="First Name" value={editFirstName} onChangeText={setEditFirstName} />
-            <TextBox name="Last Name" value={editLastName} onChangeText={setEditLastName} />
-            <TextBox name="Email" value={editEmail} onChangeText={setEditEmail} />
-            <TextBox name="New Password" value={editPassword} onChangeText={setEditPassword} secureTextEntry showEye />
-            <TextBox name="Confirm Password" value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry showEye />
-
-            <TouchableOpacity style={[styles.Button, { marginTop: 10, opacity: isEdited() ? 1 : 0.5 }]} onPress={handleSaveProfile} disabled={loading || !isEdited()}>
-              <ThemedText style={styles.logoutText}>{loading ? 'Saving...' : 'Save'}</ThemedText>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={[styles.Button, { backgroundColor: Colors.grey, marginTop: 0 }]} onPress={() => setModalVisible(false)} disabled={loading}>
-              <ThemedText style={styles.logoutText}>Cancel</ThemedText>
-            </TouchableOpacity>
-
-          </View>
-        </Modal>
       </View>
-    </LinearBackground>
+      {/* Edit Profile Modal */}
+      <Modal isVisible={modalVisible} onBackdropPress={() => setModalVisible(false)}>
+        <View style={styles.modalContent}>
+          <ThemedText style={styles.modalTitle}>Edit Profile</ThemedText>
+          {error ? <ThemedText style={styles.modalError}>{error}</ThemedText> : null}
+          {success ? <ThemedText style={styles.modalSuccess}>{success}</ThemedText> : null}
+          <TextBox name="First Name" value={editFirstName} onChangeText={setEditFirstName} />
+          <TextBox name="Last Name" value={editLastName} onChangeText={setEditLastName} />
+          <TextBox name="Email" value={editEmail} onChangeText={setEditEmail} />
+          <TextBox name="New Password" value={editPassword} onChangeText={setEditPassword} secureTextEntry showEye />
+          <TextBox name="Confirm Password" value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry showEye />
+          <TouchableOpacity style={[styles.Button, { marginTop: 10, opacity: isEdited() ? 1 : 0.5 }]} onPress={handleSaveProfile} disabled={loading || !isEdited()}>
+            <ThemedText style={styles.logoutText}>{loading ? 'Saving...' : 'Save'}</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.Button, styles.cancelButton]} onPress={() => setModalVisible(false)} disabled={loading}>
+            <ThemedText style={[styles.logoutText, { color: Colors.darkBlue }]}>Cancel</ThemedText>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: Colors.background,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 0,
+    paddingTop: 0,
   },
-  profileContainer: {
-    marginBottom: 30,
+  profileCard: {
+    borderRadius: 24,
+    marginHorizontal: 24,
+    marginTop: 128,
+    marginBottom: 16,
     alignItems: 'center',
+    paddingVertical: 32,
+    shadowColor: Colors.black,
+    borderColor: Colors.grey,
   },
   iconBackground: {
-    width: 140,
-    height: 140,
-    borderRadius: 70,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
     backgroundColor: Colors.darkBlue,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 18,
+    borderWidth: 4,
+    borderColor: Colors.grey,
   },
   detailsContainer: {
     width: '100%',
-    marginBottom: 40,
+    paddingHorizontal: 24,
   },
   detailItem: {
-    marginBottom: 20,
+    marginBottom: 12,
     alignItems: 'flex-start',
     width: '100%',
   },
   label: {
     fontWeight: 'bold',
-    fontSize: 16,
-    color: Colors.black,
-    opacity: 0.8,
+    fontSize: 14,
+    color: Colors.grey,
+    opacity: 0.9,
+    letterSpacing: 1,
   },
   value: {
     fontSize: 18,
     color: Colors.black,
-    marginTop: 4,
+    marginTop: 2,
+    fontWeight: '600',
+  },
+  divider: {
+    width: '100%',
+    height: 1,
+    backgroundColor: Colors.grey,
+    marginVertical: 8,
+  },
+  buttonGroup: {
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 8,
   },
   Button: {
     width: '80%',
@@ -210,12 +223,12 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 18,
+    marginBottom: 14,
     shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 4,
+    elevation: 2,
   },
   logOutButton: {
     width: '80%',
@@ -224,15 +237,48 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 18,
+    marginBottom: 8,
     shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 4,
+    elevation: 2,
   },
   logoutText: {
     color: Colors.white,
     fontSize: 16,
+    fontWeight: 'bold',
+  },
+  modalContent: {
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    padding: 28,
+    alignItems: 'center',
+    shadowColor: Colors.black,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.18,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    color: Colors.darkBlue,
+  },
+  modalError: {
+    color: Colors.red,
+    marginBottom: 8,
+    fontWeight: 'bold',
+  },
+  modalSuccess: {
+    color: Colors.green,
+    marginBottom: 8,
+    fontWeight: 'bold',
+  },
+  cancelButton: {
+    backgroundColor: Colors.grey,
+    marginTop: 0,
+    marginBottom: 0,
   },
 });

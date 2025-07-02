@@ -1,23 +1,24 @@
-
+import { ThemedText } from '@/components/ThemedText';
+import { Colors } from '@/constants/Colors';
 import { StyleSheet, View } from 'react-native';
 
-import { ThemedText } from '@/components/ThemedText';
-import LinearBackground from '@/components/ui/LinearBackground';
-
 export default function HistoryScreen() {
-
   return (
-    <LinearBackground>
-
+    <View style={styles.container}>
       <View style={styles.titleContainer}>
         <ThemedText type="title">History</ThemedText>
       </View>
-
-    </LinearBackground>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   titleContainer: {
     flexDirection: 'row',
     gap: 8,
