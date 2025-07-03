@@ -1,49 +1,73 @@
+import React, { useMemo, useState } from 'react';
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
+
+import { useLessons } from '@/components/fetch/lessons';
 import SearchBar from '@/components/SearchBar';
 import { ThemedText } from '@/components/ThemedText';
-import { useLessons } from '@/components/fetch/lessons';
+import { LessonCard } from '@/components/ui/LessonCard';
 import { Colors } from '@/constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
-import React, { useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Spacing } from '@/constants/Styles';
+import { Lesson } from '@/types/lesson';
 
 export default function LessonsScreen() {
-  const { lessons, loading } = useLessons();
-  const [search, setSearch] = useState('');
+  const { lessons, loading, error } = useLessons();
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Filter lessons by search input (case-insensitive)
-  const filteredLessons = useMemo(() =>
-    lessons.filter(lesson =>
-      lesson.title?.toLowerCase().includes(search.toLowerCase())
-    ), [lessons, search]);
+  const filteredLessons = useMemo(() => {
+    if (!searchQuery.trim()) return lessons;
+    
+    return lessons.filter(lesson =>
+      lesson.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      lesson.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      lesson.category?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [lessons, searchQuery]);
+
+  const handleLessonPress = (lesson: Lesson) => {
+    // TODO: Navigate to lesson detail screen
+    console.log('Navigate to lesson:', lesson.id);
+  };
+
+  const renderLessonCard = ({ item }: { item: Lesson }) => (
+    <LessonCard 
+      lesson={item} 
+      onPress={() => handleLessonPress(item)}
+    />
+  );
+
+  const renderEmptyState = () => (
+    <View style={styles.emptyState}>
+      <ThemedText style={styles.emptyText}>
+        {error ? error : searchQuery ? 'No lessons found.' : 'No lessons available.'}
+      </ThemedText>
+    </View>
+  );
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={Colors.icon} />
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <SearchBar value={search} onChangeText={setSearch} />
-      {loading ? (
-        <ActivityIndicator size="large" color={Colors.icon} style={{ marginTop: 40 }} />
-      ) : (
-        <FlatList
-          data={filteredLessons}
-          keyExtractor={item => item.id}
-          contentContainerStyle={{ paddingBottom: 32 }}
-          renderItem={({ item }) => <LessonCard lesson={item} />}
-          ListEmptyComponent={<ThemedText style={{ textAlign: 'center', marginTop: 40 }}>No lessons found.</ThemedText>}
-        />
-      )}
+      <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
+      
+      <FlatList
+        data={filteredLessons}
+        keyExtractor={(item) => item.id}
+        renderItem={renderLessonCard}
+        contentContainerStyle={styles.listContainer}
+        ListEmptyComponent={renderEmptyState}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
-  );
-}
-
-function LessonCard({ lesson }: { lesson: any }) {
-  return (
-    <TouchableOpacity style={styles.card} activeOpacity={0.85}>
-      <View style={styles.iconBox}>
-        <Ionicons size={36} color={Colors.lightBlue} />
-      </View>
-      <View style={{ flex: 1 }}>
-        <ThemedText type="defaultSemiBold">{lesson.title}</ThemedText>
-      </View>
-    </TouchableOpacity>
   );
 }
 
@@ -51,30 +75,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-    padding: 24,
-    gap: 16,
-    borderRadius: 16,
+    padding: Spacing.lg,
+    gap: Spacing.md,
   },
-  card: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 12,
-    padding: 16,
-    borderBottomColor: Colors.grey,
-    borderBottomWidth: 1,
+  listContainer: {
+    paddingBottom: Spacing.xl,
   },
-  iconBox: {
-    width: 48,
-    height: 48,
-    borderRadius: 12,
-    backgroundColor: Colors.darkBlue,
-    alignItems: 'center',
+  loadingContainer: {
+    flex: 1,
     justifyContent: 'center',
-    marginRight: 16,
+    alignItems: 'center',
   },
-  cardTitle: {
+  emptyState: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: Spacing.xl * 2,
+  },
+  emptyText: {
+    textAlign: 'center',
+    color: Colors.grey,
     fontSize: 16,
-    fontWeight: '600',
-    color: Colors.darkBlue,
   },
 });

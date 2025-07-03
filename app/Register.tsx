@@ -61,8 +61,8 @@ export default function Register() {
         keyboardVerticalOffset={60}
       >
         {/* Back Button */}
-        <TouchableOpacity 
-          style={styles.backButton} 
+        <TouchableOpacity
+          style={styles.backButton}
           onPress={() => router.push('/')}
         >
           <Text style={styles.backButtonText}>Back</Text>

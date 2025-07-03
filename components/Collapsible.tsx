@@ -9,7 +9,7 @@ export function Collapsible({ children, title }: PropsWithChildren & { title: st
   const theme = useColorScheme() ?? 'light';
 
   return (
-    
+
     <View>
 
       <TouchableOpacity
@@ -26,7 +26,7 @@ export function Collapsible({ children, title }: PropsWithChildren & { title: st
 }
 
 const styles = StyleSheet.create({
-  
+
   heading: {
     flexDirection: 'row',
     alignItems: 'center',

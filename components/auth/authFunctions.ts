@@ -1,12 +1,12 @@
 import { auth, db } from '@/firebaseConfig';
 import {
-    createUserWithEmailAndPassword,
-    onAuthStateChanged,
-    signInWithEmailAndPassword,
-    signOut,
-    updateEmail,
-    updatePassword,
-    User
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  updateEmail,
+  updatePassword,
+  User
 } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
@@ -18,7 +18,7 @@ export const signIn = async (email: string, password: string): Promise<{ success
   } catch (error: any) {
     console.error('Sign in error:', error);
     let errorMessage = 'Invalid email or password!';
-    
+
     // Handle specific Firebase auth errors
     if (error.code === 'auth/user-not-found') {
       errorMessage = 'No account found with this email address.';
@@ -29,7 +29,7 @@ export const signIn = async (email: string, password: string): Promise<{ success
     } else if (error.code === 'auth/too-many-requests') {
       errorMessage = 'Too many failed attempts. Please try again later.';
     }
-    
+
     return { success: false, error: errorMessage };
   }
 };
@@ -54,7 +54,7 @@ export const signUp = async (
   } catch (error: any) {
     console.error('Sign up error:', error);
     let errorMessage = 'Something went wrong!';
-    
+
     // Handle specific Firebase auth errors
     if (error.code === 'auth/email-already-in-use') {
       errorMessage = 'An account with this email already exists.';
@@ -65,7 +65,7 @@ export const signUp = async (
     } else if (error.code === 'auth/operation-not-allowed') {
       errorMessage = 'Email/password accounts are not enabled.';
     }
-    
+
     return { success: false, error: errorMessage };
   }
 };
@@ -88,15 +88,15 @@ export const setupAuthStateListener = (
   onError?: (error: any) => void
 ) => {
   console.log('Setting up auth state listener');
-  
+
   try {
     const unsubscribe = onAuthStateChanged(
-      auth, 
+      auth,
       (user) => {
         console.log('Auth state changed:', user?.email, 'isLoading:', false);
         onUserChange(user);
         onLoadingChange(false);
-      }, 
+      },
       (error) => {
         console.error('Auth state listener error:', error);
         onLoadingChange(false);
@@ -109,7 +109,7 @@ export const setupAuthStateListener = (
     console.error('Auth state listener setup error:', error);
     onLoadingChange(false);
     if (onError) onError(error);
-    return () => {};
+    return () => { };
   }
 };
 

@@ -3,16 +3,16 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {
-    ActivityIndicator,
-    Alert,
-    Image,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
+  ActivityIndicator,
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 
 import { signIn } from '@/components/auth';
@@ -31,7 +31,7 @@ export default function LogIn() {
 
     try {
       const result = await signIn(email, password);
-      
+
       if (result.success && result.user) {
         setLoading(false);
         Alert.alert('Success', `Logged in as ${result.user.email}`);
@@ -61,25 +61,25 @@ export default function LogIn() {
         keyboardVerticalOffset={60}
       >
         {/* Back Button */}
-        <TouchableOpacity 
-          style={styles.backButton} 
+        <TouchableOpacity
+          style={styles.backButton}
           onPress={() => router.push('/')}
         >
           <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
 
-        <ScrollView 
-        contentContainerStyle={{ 
-          flexGrow: 1, 
-          justifyContent: 'center',
-          paddingVertical: 20
-           }} 
-           keyboardShouldPersistTaps="handled"
-           showsVerticalScrollIndicator={false}
-           >
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'center',
+            paddingVertical: 20
+          }}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
 
           <View style={styles.container}>
-            
+
             <View style={{ alignItems: 'center', marginBottom: 10 }}>
               <Image source={require('../assets/images/malaware-logo.png')} style={{ width: 120, height: 120, marginBottom: 10 }} />
             </View>
@@ -146,5 +146,5 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
   },
-  
+
 });

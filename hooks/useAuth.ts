@@ -8,7 +8,7 @@ export function useAuth() {
 
   useEffect(() => {
     console.log('useAuth hook - setting up auth listener');
-    
+
     const unsubscribe = setupAuthStateListener(
       (user) => setUser(user),
       (loading) => setIsLoading(loading),

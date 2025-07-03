@@ -10,7 +10,7 @@ export default function HomeScreen() {
       <View style={styles.content}>
         <View style={styles.titleContainer}>
           {user && (
-            <ThemedText style={{paddingBottom: 12}} type="title">Hi! {user.email}</ThemedText>
+            <ThemedText style={{ paddingBottom: 12 }} type="title">Hi! {user.email}</ThemedText>
           )}
         </View>
         <View style={styles.stepContainer}>

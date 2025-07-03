@@ -14,7 +14,7 @@ interface Props {
 export default function TextBox({ name, onChangeText, secureTextEntry = false, showEye = false, value }: Props): React.ReactElement {
     const [visible, setVisible] = useState(false);
     const isPassword = secureTextEntry;
-    return(
+    return (
         <View style={styles.inputWrapper}>
             <TextInput
                 style={styles.input}
