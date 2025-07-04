@@ -1,14 +1,14 @@
 import React from 'react';
 import {
-    ActivityIndicator,
-    StyleSheet,
-    TextStyle,
-    TouchableOpacity,
-    TouchableOpacityProps,
-    ViewStyle,
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  ViewStyle,
 } from 'react-native';
 
-import { ThemedText } from '@/components/ThemedText';
 import { Colors } from '@/constants/Colors';
 import { CommonStyles, Spacing } from '@/constants/Styles';
 
@@ -63,9 +63,9 @@ export const Button: React.FC<ButtonProps> = ({
           color={variant === 'secondary' ? Colors.darkBlue : Colors.white} 
         />
       ) : (
-        <ThemedText style={textStyleCombined}>
+        <Text style={textStyleCombined}>
           {title}
-        </ThemedText>
+        </Text>
       )}
     </TouchableOpacity>
   );

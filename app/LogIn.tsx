@@ -40,7 +40,7 @@ export default function LogIn() {
         setLoading(false);
         Alert.alert('Oops!', result.error || 'Invalid email or password!');
       }
-    } catch (error) {
+    } catch {
       setLoading(false);
       Alert.alert('Oops!', 'Something went wrong!');
     }

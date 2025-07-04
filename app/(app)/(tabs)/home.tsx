@@ -1,51 +1,41 @@
-import { ThemedText } from '@/components/ThemedText';
-import { Colors } from '@/constants/Colors';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+
 import { useAuth } from '@/hooks/useAuth';
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 
 export default function HomeScreen() {
   const { user } = useAuth();
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
-      <View style={styles.content}>
-        <View style={styles.titleContainer}>
-          {user && (
-            <ThemedText style={{ paddingBottom: 12 }} type="title">Hi! {user.email}</ThemedText>
-          )}
-        </View>
-        <View style={styles.stepContainer}>
-          <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-          <ThemedText>
-            Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-            Press{' '}
-            <ThemedText type="defaultSemiBold">
-              {Platform.select({
-                ios: 'cmd + d',
-                android: 'cmd + m',
-                web: 'F12',
-              })}
-            </ThemedText>{' '}
-            to open developer tools.
-          </ThemedText>
-        </View>
-        <View style={styles.stepContainer}>
-          <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          <ThemedText>
-            {`Tap the Explore tab to learn more about what's included in this starter app.`}
-          </ThemedText>
-        </View>
-        <View style={styles.stepContainer}>
-          <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-          <ThemedText>
-            {`When you're ready, run `}
-            <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-            <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-            <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-            <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-          </ThemedText>
-        </View>
+    <View style={styles.content}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Hi! {user?.email}</Text>
       </View>
-    </SafeAreaView>
+
+      <View style={styles.stepContainer}>
+        <Text style={styles.subtitle}>Step 1: Try it</Text>
+        <Text style={styles.description}>
+          Edit <Text style={styles.bold}>app/(tabs)/index.tsx</Text> to see changes.
+        </Text>
+      </View>
+
+      <View style={styles.stepContainer}>
+        <Text style={styles.subtitle}>Step 2: Explore</Text>
+        <Text style={styles.description}>
+          Tap the explore tab to learn more about what&apos;s included in this starter app.
+        </Text>
+      </View>
+
+      <View style={styles.stepContainer}>
+        <Text style={styles.subtitle}>Step 3: Get a fresh start</Text>
+        <Text style={styles.description}>
+          When you&apos;re ready, run <Text style={styles.bold}>npm run reset-project</Text> to get a fresh{' '}
+          <Text style={styles.bold}>app</Text> directory. This will move the current{' '}
+          <Text style={styles.bold}>app</Text> to{' '}
+          <Text style={styles.bold}>app-example</Text>.
+        </Text>
+      </View>
+    </View>
   );
 }
 
@@ -63,11 +53,23 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#11181C',
+    paddingBottom: 12,
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#11181C',
+  },
+  description: {
+    fontSize: 16,
+    color: '#11181C',
+    lineHeight: 24,
+  },
+  bold: {
+    fontWeight: '600',
   },
 });

@@ -1,12 +1,12 @@
-import { ThemedText } from '@/components/ThemedText';
 import { Colors } from '@/constants/Colors';
-import { StyleSheet, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function HistoryScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <ThemedText type="title">History</ThemedText>
+        <Text style={styles.title}>History</Text>
       </View>
     </View>
   );
@@ -15,12 +15,14 @@ export default function HistoryScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: Colors.background,
   },
   titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: Colors.text,
   },
 });

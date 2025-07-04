@@ -1,8 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { ThemedText } from '@/components/ThemedText';
 import { Colors } from '@/constants/Colors';
 import { BorderRadius, Shadows, Spacing } from '@/constants/Styles';
 import { LessonCardProps } from '@/types/lesson';
@@ -16,30 +15,24 @@ export const LessonCard: React.FC<LessonCardProps> = ({ lesson, onPress }) => {
     >
       
       <View style={styles.content}>
-        <ThemedText type="defaultSemiBold" style={styles.title}>
+        <Text style={styles.title}>
           {lesson.title}
-        </ThemedText>
+        </Text>
         
-        {lesson.description && (
-          <ThemedText style={styles.description} numberOfLines={2}>
-            {lesson.description}
-          </ThemedText>
-        )}
+        <Text style={styles.description} numberOfLines={2}>
+          {lesson.description}
+        </Text>
         
-        <View style={styles.metadata}>
-          {lesson.difficulty && (
-            <View style={styles.badge}>
-              <ThemedText style={styles.badgeText}>
-                {lesson.difficulty}
-              </ThemedText>
-            </View>
-          )}
+        <View style={styles.footer}>
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>
+              {lesson.difficulty}
+            </Text>
+          </View>
           
-          {lesson.duration && (
-            <ThemedText style={styles.duration}>
-              {lesson.duration} min
-            </ThemedText>
-          )}
+          <Text style={styles.duration}>
+            {lesson.duration} min
+          </Text>
         </View>
       </View>
       
@@ -78,7 +71,7 @@ const styles = StyleSheet.create({
     color: Colors.grey,
     marginBottom: Spacing.sm,
   },
-  metadata: {
+  footer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing.sm,

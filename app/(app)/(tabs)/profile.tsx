@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
-import Modal from 'react-native-modal';
+import { Alert, Modal, StyleSheet, Text, View } from 'react-native';
 
 import { signOutUser } from '@/components/auth';
 import { useUserProfile } from '@/components/fetch/userData';
-import { ThemedText } from '@/components/ThemedText';
 import { Button } from '@/components/ui/Button';
 import TextBox from '@/components/ui/Input';
 import { ProfileCard } from '@/components/ui/ProfileCard';
 import { Colors } from '@/constants/Colors';
-import { BorderRadius, Shadows, Spacing } from '@/constants/Styles';
+import { BorderRadius, Spacing } from '@/constants/Styles';
 import { useAuth } from '@/hooks/useAuth';
 import { useProfileEdit } from '@/hooks/useProfileEdit';
 import * as NavigationBar from 'expo-navigation-bar';
@@ -47,7 +45,7 @@ export default function ProfileScreen() {
       if (!result.success) {
         Alert.alert('Error', result.error || 'Failed to log out');
       }
-    } catch (error) {
+    } catch {
       Alert.alert('Error', 'Failed to log out');
     }
   };
@@ -96,73 +94,71 @@ export default function ProfileScreen() {
       </View>
 
       {/* Edit Profile Modal */}
-      <Modal 
-        isVisible={modalVisible} 
-        onBackdropPress={handleCloseModal}
-        onBackButtonPress={handleCloseModal}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
       >
-        <View style={styles.modalContent}>
-          <ThemedText style={styles.modalTitle}>Edit Profile</ThemedText>
-          
-          {error && (
-            <ThemedText style={styles.modalError}>{error}</ThemedText>
-          )}
-          
-          {success && (
-            <ThemedText style={styles.modalSuccess}>{success}</ThemedText>
-          )}
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Edit Profile</Text>
+            
+            {error && <Text style={styles.modalError}>{error}</Text>}
+            {success && <Text style={styles.modalSuccess}>{success}</Text>}
 
-          <TextBox 
-            name="First Name" 
-            value={formData.firstName} 
-            onChangeText={(value) => updateField('firstName', value)} 
-          />
-          
-          <TextBox 
-            name="Last Name" 
-            value={formData.lastName} 
-            onChangeText={(value) => updateField('lastName', value)} 
-          />
-          
-          <TextBox 
-            name="Email" 
-            value={formData.email} 
-            onChangeText={(value) => updateField('email', value)} 
-          />
-          
-          <TextBox 
-            name="New Password" 
-            value={formData.password} 
-            onChangeText={(value) => updateField('password', value)} 
-            secureTextEntry 
-            showEye 
-          />
-          
-          <TextBox 
-            name="Confirm Password" 
-            value={formData.confirmPassword} 
-            onChangeText={(value) => updateField('confirmPassword', value)} 
-            secureTextEntry 
-            showEye 
-          />
-
-          <View style={styles.modalButtons}>
-            <Button
-              title={loading ? 'Saving...' : 'Save'}
-              variant="primary"
-              loading={loading}
-              disabled={!hasChanges()}
-              onPress={handleSaveProfile}
-              style={styles.saveButton}
+            <TextBox 
+              name="First Name" 
+              value={formData.firstName} 
+              onChangeText={(value) => updateField('firstName', value)} 
             />
             
-            <Button
-              title="Cancel"
-              variant="secondary"
-              disabled={loading}
-              onPress={handleCloseModal}
-              style={styles.cancelButton}
+            <TextBox 
+              name="Last Name" 
+              value={formData.lastName} 
+              onChangeText={(value) => updateField('lastName', value)} 
             />
+            
+            <TextBox 
+              name="Email" 
+              value={formData.email} 
+              onChangeText={(value) => updateField('email', value)} 
+            />
+            
+            <TextBox 
+              name="New Password" 
+              value={formData.password} 
+              onChangeText={(value) => updateField('password', value)} 
+              secureTextEntry 
+              showEye 
+            />
+            
+            <TextBox 
+              name="Confirm Password" 
+              value={formData.confirmPassword} 
+              onChangeText={(value) => updateField('confirmPassword', value)} 
+              secureTextEntry 
+              showEye 
+            />
+
+            <View style={styles.modalButtons}>
+              <Button
+                title={loading ? 'Saving...' : 'Save'}
+                variant="primary"
+                loading={loading}
+                disabled={!hasChanges()}
+                onPress={handleSaveProfile}
+                style={styles.saveButton}
+              />
+              
+              <Button
+                title="Cancel"
+                variant="secondary"
+                disabled={loading}
+                onPress={handleCloseModal}
+                style={styles.cancelButton}
+              />
+            </View>
           </View>
         </View>
       </Modal>
@@ -184,12 +180,17 @@ const styles = StyleSheet.create({
   button: {
     width: '70%',
   },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
   modalContent: {
     backgroundColor: Colors.white,
     borderRadius: BorderRadius.xl,
     padding: Spacing.xl,
-    alignItems: 'center',
-    ...Shadows.large,
+    width: '100%',
   },
   modalTitle: {
     fontSize: 20,

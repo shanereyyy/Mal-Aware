@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { ThemedText } from '@/components/ThemedText';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from '@/constants/Colors';
 import { BorderRadius, Spacing } from '@/constants/Styles';
@@ -29,17 +28,17 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
       
       <View style={styles.details}>
         <View style={styles.detailItem}>
-          <ThemedText style={styles.label}>FULL NAME</ThemedText>
-          <ThemedText style={styles.value}>
+          <Text style={styles.label}>FULL NAME</Text>
+          <Text style={styles.value}>
             {fullName || 'Loading...'}
-          </ThemedText>
+          </Text>
         </View>
         
         <View style={styles.divider} />
         
         <View style={styles.detailItem}>
-          <ThemedText style={styles.label}>EMAIL</ThemedText>
-          <ThemedText style={styles.value}>{email}</ThemedText>
+          <Text style={styles.label}>EMAIL</Text>
+          <Text style={styles.value}>{email}</Text>
         </View>
       </View>
     </View>

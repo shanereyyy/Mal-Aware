@@ -1,9 +1,8 @@
 import React, { useMemo, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 
 import { useLessons } from '@/components/fetch/lessons';
 import SearchBar from '@/components/SearchBar';
-import { ThemedText } from '@/components/ThemedText';
 import { LessonCard } from '@/components/ui/LessonCard';
 import { LessonSkeleton } from '@/components/ui/LessonSkeleton';
 import { Colors } from '@/constants/Colors';
@@ -39,9 +38,9 @@ export default function LessonsScreen() {
 
   const renderEmptyState = () => (
     <View style={styles.emptyState}>
-      <ThemedText style={styles.emptyText}>
+      <Text style={styles.emptyText}>
         {error ? error : searchQuery ? 'No lessons found.' : 'No lessons available.'}
-      </ThemedText>
+      </Text>
     </View>
   );
 

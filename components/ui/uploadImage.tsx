@@ -1,4 +1,3 @@
-import { ThemedText } from '@/components/ThemedText';
 import { Colors } from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
@@ -33,8 +32,8 @@ export default function UploadImage() {
         ) : (
           <>
             <Ionicons name="arrow-up-circle-outline" size={52} color={Colors.darkBlue} style={{ marginBottom: 16 }} />
-            <ThemedText style={styles.tapText}>Tap to</ThemedText>
-            <ThemedText style={styles.uploadText}>Upload Image</ThemedText>
+            <Text style={styles.tapText}>Tap to</Text>
+            <Text style={styles.uploadText}>Upload Image</Text>
           </>
         )}
       </TouchableOpacity>
@@ -51,9 +50,9 @@ export default function UploadImage() {
       )}
 
       {result ? (
-        <ThemedText style={styles.resultText}>{result}</ThemedText>
+        <Text style={styles.resultText}>{result}</Text>
       ) : (
-        <ThemedText style={styles.acceptedText}>Accepted File Type: jpg, png, jpeg.</ThemedText>
+        <Text style={styles.acceptedText}>Accepted File Type: jpg, png, jpeg.</Text>
       )}
     </View>
   );
