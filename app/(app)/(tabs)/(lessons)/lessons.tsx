@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 
 import { useLessons } from '@/components/fetch/lessons';
 import SearchBar from '@/components/SearchBar';
 import { ThemedText } from '@/components/ThemedText';
 import { LessonCard } from '@/components/ui/LessonCard';
+import { LessonSkeleton } from '@/components/ui/LessonSkeleton';
 import { Colors } from '@/constants/Colors';
 import { Spacing } from '@/constants/Styles';
 import { Lesson } from '@/types/lesson';
@@ -48,9 +49,13 @@ export default function LessonsScreen() {
     return (
       <View style={styles.container}>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={Colors.icon} />
-        </View>
+        <FlatList
+          data={[1, 2, 3, 4, 5, 6]}
+          keyExtractor={(item) => item.toString()}
+          renderItem={() => <LessonSkeleton />}
+          contentContainerStyle={styles.listContainer}
+          showsVerticalScrollIndicator={false}
+        />
       </View>
     );
   }
@@ -80,6 +85,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingBottom: Spacing.xl,
+    margin: Spacing.sm,
   },
   loadingContainer: {
     flex: 1,

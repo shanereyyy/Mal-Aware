@@ -14,13 +14,6 @@ export const LessonCard: React.FC<LessonCardProps> = ({ lesson, onPress }) => {
       activeOpacity={0.85}
       onPress={onPress}
     >
-      <View style={styles.iconContainer}>
-        <Ionicons 
-          name="book-outline" 
-          size={24} 
-          color={Colors.lightBlue} 
-        />
-      </View>
       
       <View style={styles.content}>
         <ThemedText type="defaultSemiBold" style={styles.title}>
@@ -70,15 +63,6 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.border,
     borderBottomWidth: 1,
     ...Shadows.small,
-  },
-  iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: BorderRadius.md,
-    backgroundColor: Colors.darkBlue,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: Spacing.md,
   },
   content: {
     flex: 1,
