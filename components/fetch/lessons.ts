@@ -33,8 +33,6 @@ export function useLessons(): UseLessonsReturn {
           category: data.category,
           difficulty: data.difficulty,
           duration: data.duration,
-          createdAt: data.createdAt?.toDate(),
-          updatedAt: data.updatedAt?.toDate(),
         });
       });
       
