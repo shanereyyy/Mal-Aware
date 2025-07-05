@@ -3,7 +3,7 @@ import { Colors } from '@/constants/Colors';
 import * as NavigationBar from 'expo-navigation-bar';
 import { Tabs } from 'expo-router';
 import { useEffect } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { Platform, TouchableOpacity, View } from 'react-native';
 
 export default function TabLayout() {
 
@@ -19,10 +19,30 @@ export default function TabLayout() {
         tabBarShowLabel: true,
         tabBarStyle: {
           height: 70,
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
-          backgroundColor: Colors.darkBlue,
-        }
+          backgroundColor: Colors.lightBlue,
+        },
+        tabBarActiveTintColor: Colors.darkBlue,
+        tabBarInactiveTintColor: Colors.white,
+        tabBarItemStyle: {
+          // Remove ripple effect
+          elevation: 0,
+          shadowOpacity: 0,
+          ...(Platform.OS === 'android' && {
+            // Android specific styles to disable ripple
+            backgroundColor: 'transparent',
+            borderWidth: 0,
+            borderColor: 'transparent',
+          }),
+        },
+        tabBarButton: ({ children, onPress, style }) => (
+          <TouchableOpacity
+            onPress={onPress}
+            activeOpacity={1}
+            style={style}
+          >
+            {children}
+          </TouchableOpacity>
+        ),
       }}
     >
 
@@ -32,15 +52,15 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           headerShown: false,
-          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="house.fill" color={focused ? '#39A8FF' : Colors.white} />, // selected: #39A8FF, default: #005EA4
+          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="house.fill" color={focused ? Colors.darkBlue : Colors.white} />,
         }}
       />
       <Tabs.Screen
-        name="(lessons)/lessons"
+        name="lessons"
         options={{
           title: 'Lessons',
           headerShown: false,
-          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="book.fill" color={focused ? '#39A8FF' : Colors.white} />,
+          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="book.fill" color={focused ? Colors.darkBlue : Colors.white} />,
         }}
       />
 
@@ -52,23 +72,19 @@ export default function TabLayout() {
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View style={{
-              backgroundColor: focused ? '#39A8FF' : Colors.white,
+              backgroundColor: focused ? Colors.darkBlue : Colors.white,
               width: 64,
               height: 64,
               borderRadius: 32,
               alignItems: 'center',
               justifyContent: 'center',
               borderWidth: 6,
-              borderColor: Colors.darkBlue,
+              borderColor: Colors.lightBlue,
               elevation: 8,
+              top: -8,
             }}>
-              <IconSymbol size={32} name="qrcode.viewfinder" color={Colors.darkBlue} />
+              <IconSymbol size={32} name="qrcode.viewfinder" color={Colors.lightBlue} />
             </View>
-          ),
-          tabBarButton: ({ children, onPress, style }) => (
-            <TouchableOpacity
-              onPress={onPress}
-              style={[style, { top: -24 }]}>{children}</TouchableOpacity>
           ),
         }}
       />
@@ -77,7 +93,7 @@ export default function TabLayout() {
         options={{
           title: 'History',
           headerShown: false,
-          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="clock.arrow.circlepath" color={focused ? '#39A8FF' : Colors.white} />,
+          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="clock.arrow.circlepath" color={focused ? Colors.darkBlue : Colors.white} />,
         }}
       />
       <Tabs.Screen
@@ -85,7 +101,7 @@ export default function TabLayout() {
         options={{
           title: 'Profile',
           headerShown: false,
-          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="person.fill" color={focused ? '#39A8FF' : Colors.white} />,
+          tabBarIcon: ({ focused }) => <IconSymbol size={28} name="person.fill" color={focused ? Colors.darkBlue : Colors.white} />,
         }}
       />
     </Tabs>

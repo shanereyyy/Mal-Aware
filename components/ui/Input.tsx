@@ -9,15 +9,19 @@ interface Props {
     secureTextEntry?: boolean;
     showEye?: boolean;
     value?: string;
+    borderColor?: string;
 }
 
-export default function TextBox({ name, onChangeText, secureTextEntry = false, showEye = false, value }: Props): React.ReactElement {
+export default function TextBox({ name, onChangeText, secureTextEntry = false, showEye = false, value, borderColor }: Props): React.ReactElement {
     const [visible, setVisible] = useState(false);
     const isPassword = secureTextEntry;
     return (
         <View style={styles.inputWrapper}>
             <TextInput
-                style={styles.input}
+                style={[
+                    styles.input,
+                    borderColor && { borderWidth: 2, borderColor }
+                ]}
                 placeholder={name}
                 placeholderTextColor={Colors.grey}
                 onChangeText={onChangeText}

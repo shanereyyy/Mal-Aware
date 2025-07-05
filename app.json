@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/malaware-logo.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.shinnn.reee.MalAware"
     },
     "web": {
       "bundler": "metro",
@@ -37,10 +38,17 @@
       "expo-build-properties"
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "buildCacheProvider": "eas"
     },
     "updates": {
       "enabled": false
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "b75401de-4e42-4c8a-bfc2-ee5a04375e6d"
+      }
     }
   }
 }

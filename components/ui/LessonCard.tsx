@@ -31,7 +31,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({ lesson, onPress }) => {
           </View>
           
           <Text style={styles.duration}>
-            {lesson.duration} min
+            {lesson.duration}
           </Text>
         </View>
       </View>
@@ -62,13 +62,14 @@ const styles = StyleSheet.create({
     marginRight: Spacing.sm,
   },
   title: {
-    fontSize: 16,
-    color: Colors.darkBlue,
+    fontSize: 18,
+    fontWeight: '600',
+    color: Colors.text,
     marginBottom: Spacing.xs,
   },
   description: {
-    fontSize: 14,
-    color: Colors.grey,
+    fontSize: 16,
+    color: Colors.text,
     marginBottom: Spacing.sm,
   },
   footer: {
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   duration: {
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.grey,
   },
 }); 

@@ -1,7 +1,8 @@
 import { Colors } from '@/constants/Colors';
+import { BorderRadius, Shadows, Spacing } from '@/constants/Styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -25,12 +26,28 @@ export default function Register() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
+  const [passwordsMatch, setPasswordsMatch] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
+
   const router = useRouter();
 
+  // Check if passwords match and form is valid
+  useEffect(() => {
+    const match = password === confirmPassword && password.length > 0 && confirmPassword.length > 0;
+    setPasswordsMatch(match);
+    
+    const valid = email.length > 0 && password.length > 0 && confirmPassword.length > 0 && 
+                  firstName.length > 0 && lastName.length > 0 && match;
+    setIsFormValid(valid);
+  }, [email, password, confirmPassword, firstName, lastName]);
+
   async function register() {
+    if (!isFormValid) return;
+    
     setLoading(true);
     try {
       const result = await signUp(email, password, firstName, lastName);
@@ -71,28 +88,39 @@ export default function Register() {
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }} keyboardShouldPersistTaps="handled">
           <View style={styles.container}>
 
-            <View style={{ alignItems: 'center', marginBottom: 10 }}>
-              <Image source={require('../assets/images/malaware-logo.png')} style={{ width: 120, height: 120, marginBottom: 10 }} />
+            <View style={{ alignItems: 'center', marginBottom: Spacing.sm }}>
+              <Image source={require('../assets/images/malaware-logo.png')} style={{ width: 120, height: 120, marginBottom: Spacing.sm }} />
             </View>
 
-            <TextBox name="First name" onChangeText={setFirstName} />
-            <TextBox name="Last name" onChangeText={setLastName} />
-            <TextBox name="Email" onChangeText={setEmail} />
-            <TextBox name="Password" onChangeText={setPassword} secureTextEntry showEye />
-            <TextBox name="Confirm password" secureTextEntry showEye />
+            <TextBox name="First name" onChangeText={setFirstName} value={firstName} />
+            <TextBox name="Last name" onChangeText={setLastName} value={lastName} />
+            <TextBox name="Email" onChangeText={setEmail} value={email} />
+            <TextBox name="Password" onChangeText={setPassword} secureTextEntry showEye value={password} />
+            <TextBox 
+              name="Confirm password" 
+              onChangeText={setConfirmPassword} 
+              secureTextEntry 
+              showEye 
+              value={confirmPassword}
+              borderColor={confirmPassword.length > 0 ? (passwordsMatch ? undefined : Colors.red) : undefined}
+            />
 
-            {/* <View style={styles.checkboxContainer}>
-              <TouchableOpacity style={styles.checkbox} onPress={() => setAgree(!agree)}>
-                {agree && <View style={styles.checkboxChecked} />}
-              </TouchableOpacity>
-              <Text style={styles.privacyText}>I Agree with <Text style={styles.link}>privacy</Text> and <Text style={styles.link}>policy</Text>.</Text>
-            </View> */}
+            {confirmPassword.length > 0 && !passwordsMatch && (
+              <Text style={styles.errorText}>Passwords do not match</Text>
+            )}
 
-            <TouchableOpacity style={styles.button} onPress={register}>
+            <TouchableOpacity 
+              style={[
+                styles.button, 
+                !isFormValid && styles.buttonDisabled
+              ]} 
+              onPress={register}
+              disabled={!isFormValid || loading}
+            >
               {loading ? (
                 <ActivityIndicator
                   size={'small'}
-                  color={'white'}
+                  color={Colors.white}
                   animating={loading}
                 />
               ) : (
@@ -125,15 +153,15 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: Spacing.sm,
     width: '80%',
   },
   checkbox: {
     width: 20,
     height: 20,
     borderWidth: 1,
-    borderColor: '#7B8D93',
-    marginRight: 10,
+    borderColor: Colors.grey,
+    marginRight: Spacing.sm,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -143,7 +171,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightBlue,
   },
   privacyText: {
-    color: '#7B8D93',
+    color: Colors.grey,
   },
   link: {
     color: Colors.lightBlue,
@@ -152,30 +180,37 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 48,
     backgroundColor: Colors.darkBlue,
-    borderRadius: 24,
+    borderRadius: BorderRadius.xxl,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 18,
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 3,
+    marginBottom: Spacing.md,
+    ...Shadows.medium,
+  },
+  buttonDisabled: {
+    backgroundColor: Colors.grey,
+    opacity: 0.6,
   },
   buttonText: {
-    color: '#fff',
+    color: Colors.white,
     fontSize: 18,
   },
   backButton: {
     position: 'absolute',
     top: 50,
-    left: 20,
+    left: Spacing.md,
     zIndex: 1000,
-    padding: 10,
+    padding: Spacing.sm,
   },
   backButtonText: {
     fontSize: 16,
     color: Colors.darkBlue,
     fontWeight: '600',
+  },
+  errorText: {
+    color: Colors.red,
+    fontSize: 14,
+    marginBottom: Spacing.sm,
+    width: '80%',
+    textAlign: 'center',
   },
 });

@@ -1,4 +1,5 @@
 import { Colors } from '@/constants/Colors';
+import { BorderRadius, Shadows, Spacing } from '@/constants/Styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
@@ -72,7 +73,7 @@ export default function LogIn() {
           contentContainerStyle={{
             flexGrow: 1,
             justifyContent: 'center',
-            paddingVertical: 20
+            paddingVertical: Spacing.md
           }}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
@@ -80,15 +81,15 @@ export default function LogIn() {
 
           <View style={styles.container}>
 
-            <View style={{ alignItems: 'center', marginBottom: 10 }}>
-              <Image source={require('../assets/images/malaware-logo.png')} style={{ width: 120, height: 120, marginBottom: 10 }} />
+            <View style={{ alignItems: 'center', marginBottom: Spacing.sm }}>
+              <Image source={require('../assets/images/malaware-logo.png')} style={{ width: 120, height: 120, marginBottom: Spacing.sm }} />
             </View>
 
             <TextBox name="Email" onChangeText={setEmail} />
             <TextBox name="Password" onChangeText={setPassword} secureTextEntry showEye />
             <TouchableOpacity style={styles.button} onPress={login} disabled={loading}>
               {loading ? (
-                <ActivityIndicator size={'small'} color={'white'} animating={loading} />
+                <ActivityIndicator size={'small'} color={Colors.white} animating={loading} />
               ) : (
                 <Text style={styles.buttonText}>Log in</Text>
               )}
@@ -116,9 +117,9 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     top: 50,
-    left: 20,
+    left: Spacing.md,
     zIndex: 1000,
-    padding: 10,
+    padding: Spacing.sm,
   },
 
   backButtonText: {
@@ -131,19 +132,15 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 48,
     backgroundColor: Colors.darkBlue,
-    borderRadius: 24,
+    borderRadius: BorderRadius.xxl,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 18,
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 3,
+    marginBottom: Spacing.md,
+    ...Shadows.medium,
   },
 
   buttonText: {
-    color: '#fff',
+    color: Colors.white,
     fontSize: 18,
   },
 

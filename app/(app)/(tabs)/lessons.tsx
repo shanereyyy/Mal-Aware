@@ -5,12 +5,13 @@ import { useLessons } from '@/components/fetch/lessons';
 import SearchBar from '@/components/SearchBar';
 import { LessonCard } from '@/components/ui/LessonCard';
 import { LessonSkeleton } from '@/components/ui/LessonSkeleton';
+import { PullToRefresh } from '@/components/ui/PullToRefresh';
 import { Colors } from '@/constants/Colors';
 import { Spacing } from '@/constants/Styles';
 import { Lesson } from '@/types/lesson';
 
 export default function LessonsScreen() {
-  const { lessons, loading, error } = useLessons();
+  const { lessons, loading, error, refetch } = useLessons();
   const [searchQuery, setSearchQuery] = useState('');
 
   // Filter lessons by search input (case-insensitive)
@@ -63,10 +64,12 @@ export default function LessonsScreen() {
     <View style={styles.container}>
       <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
       
-      <FlatList
+      <PullToRefresh
         data={filteredLessons}
-        keyExtractor={(item) => item.id}
         renderItem={renderLessonCard}
+        keyExtractor={(item) => item.id}
+        onRefresh={refetch}
+        refreshing={loading}
         contentContainerStyle={styles.listContainer}
         ListEmptyComponent={renderEmptyState}
         showsVerticalScrollIndicator={false}
@@ -99,7 +102,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     textAlign: 'center',
-    color: Colors.grey,
+    color: Colors.text,
     fontSize: 16,
   },
 });

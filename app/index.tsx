@@ -3,6 +3,7 @@ import { Redirect, useRouter } from 'expo-router';
 import React from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../constants/Colors';
+import { BorderRadius, Shadows, Spacing } from '../constants/Styles';
 import { useAuth } from '../hooks/useAuth';
 
 export default function Home() {
@@ -17,7 +18,7 @@ export default function Home() {
     console.log('Index screen - showing loading');
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#005EA4" />
+        <ActivityIndicator size="large" color={Colors.icon} />
       </View>
     );
   }
@@ -70,8 +71,8 @@ const styles = StyleSheet.create({
   logo: {
     width: 180,
     height: 180,
-    marginBottom: 12,
-    marginTop: 12,
+    marginBottom: Spacing.sm,
+    marginTop: Spacing.sm,
   },
 
   title: {
@@ -84,28 +85,24 @@ const styles = StyleSheet.create({
     textShadowColor: '#8ED6FF',
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 8,
-    marginBottom: 40,
+    marginBottom: Spacing.xl,
   },
 
   buttonContainer: {
     width: '100%',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: Spacing.md,
   },
 
   signupButton: {
     width: '80%',
     height: 48,
     backgroundColor: Colors.darkBlue,
-    borderRadius: 24,
+    borderRadius: BorderRadius.xxl,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 18,
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 3,
+    marginBottom: Spacing.md,
+    ...Shadows.medium,
   },
 
   signupText: {
@@ -118,14 +115,10 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 48,
     backgroundColor: Colors.white,
-    borderRadius: 24,
+    borderRadius: BorderRadius.xxl,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.10,
-    shadowRadius: 8,
-    elevation: 2,
+    ...Shadows.small,
   },
 
   signinText: {

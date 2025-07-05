@@ -193,21 +193,23 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: Spacing.md,
-    color: Colors.darkBlue,
+    color: Colors.text,
   },
   modalError: {
     color: Colors.red,
     marginBottom: Spacing.sm,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '600',
     textAlign: 'center',
   },
   modalSuccess: {
     color: Colors.green,
     marginBottom: Spacing.sm,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '600',
     textAlign: 'center',
   },
   modalButtons: {
